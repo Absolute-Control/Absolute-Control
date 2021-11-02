@@ -19,7 +19,10 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 from dataclasses import dataclass
+from subprocess import PIPE
 from typing import List
+
+from psutil import Popen
 
 
 @dataclass
@@ -31,14 +34,17 @@ class Model:
     username: str
     cpu_percent: float
     memory_percent: float
+    stdin: PIPE
+    stdout: PIPE
+    stderr: PIPE
 
     @classmethod
-    def from_process(cls, process: 'psutil.Process') -> 'Model':
+    def from_process(cls, process: Popen) -> 'Model':
         """
-        Create a Process model from a psutil.Process object.
+        Create a Process model from a Popen object.
 
         Args:
-            process (psutil.Process): A psutil.Process object.
+            process (Popen): A Popen object.
 
         Returns:
             Model: A Process model.
@@ -50,5 +56,8 @@ class Model:
             status=process.status(),
             username=process.username(),
             cpu_percent=process.cpu_percent(),
-            memory_percent=process.memory_percent()
+            memory_percent=process.memory_percent(),
+            stdin=process.stdin,
+            stdout=process.stdout,
+            stderr=process.stderr
         )
