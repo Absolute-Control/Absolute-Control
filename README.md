@@ -1,4 +1,4 @@
 # Absolute Control
 
-A library for assisting with control of computer systems using python.
+A library for assisting with control of computer processes using python.
 

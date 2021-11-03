@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Copyright (c) 2021 Johnathan P. Irvin
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -18,17 +19,12 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-from src.infrastructure import (get_all_processes, get_process_by_id,
-                                get_processes_by_name, kill_all_processes,
-                                kill_process_by_id, kill_processes_by_name,
-                                open_process_using_command)
+import pytest
+from coverage import coverage
 
-__all__ = [
-    'get_all_processes',
-    'get_process_by_id',
-    'get_processes_by_name',
-    'kill_all_processes',
-    'kill_process_by_id',
-    'kill_processes_by_name',
-    'open_process_using_command'
-]
+if __name__ == "__main__":
+    cov = coverage(branch=True, omit=["tests/*", "*/tests/*"])
+    cov.start()
+    pytest.main()
+    print(cov.report())
+    cov.stop()

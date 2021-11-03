@@ -20,8 +20,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 from typing import List
 
+from absolute_control.models import process
 from psutil import AccessDenied, Popen, process_iter
-from src.models import process
 
 
 def get_process_by_id(pid: int) -> process.Model:

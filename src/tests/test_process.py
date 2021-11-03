@@ -22,11 +22,11 @@ from typing import Any
 from unittest.mock import Mock, patch
 
 from psutil import AccessDenied
-from pytest import fixture, mark, raises
-from src import (get_all_processes, get_process_by_id, get_processes_by_name,
+from pytest import fixture, mark
+from absolute_control import (get_all_processes, get_process_by_id, get_processes_by_name,
                  kill_all_processes, kill_process_by_id,
                  kill_processes_by_name, open_process_using_command)
-from src.models.process import Model
+from absolute_control.models.process import Model
 
 
 @fixture
@@ -63,7 +63,7 @@ def test_model_from_process(fake_util_process):
 ])
 def test_get_all_processes(fake_util_process: Model, attribute: str, value: Any):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         processes = get_all_processes()
@@ -81,7 +81,7 @@ def test_get_all_processes(fake_util_process: Model, attribute: str, value: Any)
 ])
 def test_get_process_by_id(fake_util_process: Model, attribute: str, value: Any):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         process = get_process_by_id(1)
@@ -90,7 +90,7 @@ def test_get_process_by_id(fake_util_process: Model, attribute: str, value: Any)
 
 def test_get_process_by_id_no_match(fake_util_process: Model):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         process = get_process_by_id(2)
@@ -99,7 +99,7 @@ def test_get_process_by_id_no_match(fake_util_process: Model):
 
 def test_get_processes_by_name(fake_util_process: Model):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         processes = get_processes_by_name('foo')
@@ -109,7 +109,7 @@ def test_get_processes_by_name(fake_util_process: Model):
 
 def test_get_processes_by_name_no_match():
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[]
     ):
         processes = get_processes_by_name('foo')
@@ -118,7 +118,7 @@ def test_get_processes_by_name_no_match():
 
 def test_kill_all_processes(fake_util_process: Model):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         kill_all_processes()
@@ -127,7 +127,7 @@ def test_kill_all_processes(fake_util_process: Model):
 
 def test_kill_process_by_id(fake_util_process: Model):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         kill_process_by_id(1)
@@ -136,7 +136,7 @@ def test_kill_process_by_id(fake_util_process: Model):
 
 def test_kill_process_by_id_no_match(fake_util_process: Model):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         kill_process_by_id(2)
@@ -145,7 +145,7 @@ def test_kill_process_by_id_no_match(fake_util_process: Model):
 
 def test_kill_processes_by_name(fake_util_process: Model):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         kill_processes_by_name('foo')
@@ -154,7 +154,7 @@ def test_kill_processes_by_name(fake_util_process: Model):
 
 def test_kill_processes_by_name_no_match(fake_util_process: Model):
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         kill_processes_by_name('bar')
@@ -163,7 +163,7 @@ def test_kill_processes_by_name_no_match(fake_util_process: Model):
 
 def test_open_process_using_command(fake_util_process: Model):
     with patch(
-        'src.infrastructure.process.Popen',
+        'absolute_control.infrastructure.process.Popen',
         return_value=fake_util_process
     ):
         process = open_process_using_command('foo')
@@ -173,7 +173,7 @@ def test_open_process_using_command(fake_util_process: Model):
 def test_kill_all_processes_raises_access_denied(fake_util_process: Model):
     fake_util_process.kill.side_effect = AccessDenied
     with patch(
-        'src.infrastructure.process.process_iter',
+        'absolute_control.infrastructure.process.process_iter',
         return_value=[fake_util_process]
     ):
         kill_all_processes()
