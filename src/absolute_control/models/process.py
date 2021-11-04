@@ -34,10 +34,8 @@ class Model:
     username: str
     cpu_percent: float
     memory_percent: float
-    stdin: PIPE
-    stdout: PIPE
-    stderr: PIPE
-
+    Popen: Popen
+    
     @classmethod
     def from_process(cls, process: Popen) -> 'Model':
         """
@@ -57,7 +55,5 @@ class Model:
             username=process.username(),
             cpu_percent=process.cpu_percent(),
             memory_percent=process.memory_percent(),
-            stdin=process.stdin,
-            stdout=process.stdout,
-            stderr=process.stderr
+            Popen=process
         )
